@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1" >
+    <title>Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css" rel="stylesheet" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
+</head>
+<body>
+<div class="tabs is-centered">
+    <ul>
+        <li class="is-active"><a href="/admin">文章概览</a></li>
+        <li><a href="/admin/write">写文章</a></li>
+    </ul>
+</div>
+<div id="main" class="container">
+    <div class="container">
+        <table class="table is-bordered is-striped is-narrow is-fullwidth">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>标题</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for article in articles %}
+            <tr>
+                <td>{{ article.id }}</td>
+                <td>{{ article.title }}</td>
+                <td>
+                    <a href="/admin/update/{{ article.id }}">修改</a>
+                    <a href="/admin/delete/{{ article.id }}">删除</a>
+                </td>
+                {% endfor %}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

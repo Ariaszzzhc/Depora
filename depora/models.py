@@ -1,6 +1,7 @@
 import datetime
 
 from depora import db
+from depora import bcrypt
 
 
 class User(db.Model):
@@ -16,12 +17,19 @@ class User(db.Model):
         lazy='dynamic'
     )
 
-    def __init__(self, username):
+    def __init__(self, username, password):
         self.username = username
+        self.password = password
 
     def __repr__(self):
         """Define the string format for instance of User."""
         return "<Model User `{}`>".format(self.username)
+
+    def set_password(password):
+        return bcrypt.generate_password_hash(password)
+
+    def check_password(password):
+        return bcrypt.check_password_hash(password)
 
 
 articles_tags = db.Table('articles_tags',
@@ -50,8 +58,7 @@ class Article(db.Model):
         secondary=articles_tags,
         backref=db.backref('articles', lazy='dynamic'))
 
-    def __init__(self, id, title, content):
-        self.id = id
+    def __init__(self, title, content):
         self.title = title
         self.content = content
         self.publish = datetime.datetime.now()
@@ -63,14 +70,13 @@ class Article(db.Model):
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255))
-    text = db.Column(db.Text())
+    content = db.Column(db.Text())
     date = db.Column(db.DateTime())
 
     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
 
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, content):
+        self.name = content
 
     def __repr__(self):
         return '<Model Comment `{}`>'.format(self.name)

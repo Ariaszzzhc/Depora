@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>写文章</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+    <link href="{{ url_for('static', filename='editor.md/css/editormd.css') }}" rel="stylesheet"/>
+    <script src="{{ url_for('static', filename='editor.md/editormd.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        //    调用编辑器
+        var testEditor;
+        $(function () {
+
+            testEditor = editormd("editormd", {
+//                width   : "1000px",
+                height: 640,
+                syncScrolling: "single",
+                path: "{{ url_for('static',filename='editor.md/lib/') }}"
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="tabs is-centered">
+    <ul>
+        <li><a href="/admin">文章概览</a></li>
+        <li class="is-active"><a href="/admin/write">写文章</a></li>
+    </ul>
+</div>
+<div id="main" class="container">
+    <form method="post" action="/admin/update/{{ id }}">
+        {{ form.hidden_tag() }}
+        <div class="field">
+            <label class="label">标题</label>
+            <div class="columns">
+                <div class="column is-three-quarters">
+                    {% if form.title.errors %}
+                        {% for e in form.title.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.title(class_='input') }}
+                </div>
+                <div class="column">
+                    {#                    <div class="dropdown is-active">#}
+                    {#                        <div class="dropdown-trigger">#}
+                    {#                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu2" >#}
+                    {#                                <span>标签</span>#}
+                    {#                                <span class="icon is-small">#}
+                    {#                    <i class="fa fa-angle-down" aria-hidden="true"></i>#}
+                    {#                </span>#}
+                    {#                            </button>#}
+                    {#                        </div>#}
+                    {#                        <!--<div class="dropdown-menu" id="dropdown-menu2" role="menu">-->#}
+                    {#                            <!--<ul class="dropdown-content">-->#}
+                    {#                                <!--<li th:each="tag:${tags}">-->#}
+                    {#                                    <!--<a th:name="${tag.name}" onclick="selectCategory(this)" th:text="${tag.name}"></a>-->#}
+                    {#                                <!--</li>-->#}
+                    {#                            <!--</ul>-->#}
+                    {#                            <!--<input name="newTag" id="cateoryInput" type="hidden" th:field="*{newTag.name}"/>-->#}
+                    {#                        <!--</div>-->#}
+                    {#                    </div>#}
+                </div>
+            </div>
+            <p class="help">文章标题</p>
+        </div>
+        <!--文本标记区-->
+        {% if form.text.errors %}
+            {% for e in form.text.errors %}
+                <p class="help-block">{{ e }}</p>
+            {% endfor %}
+        {% endif %}
+        <div id="editormd" class="form-control">
+            {{ form.text(style="display:none;") }}
+        </div>
+        <!--提交按钮-->
+        <div class="columns">
+            <div class="column is-four-fifths"></div>
+            <div class="column">
+                <input type="submit" class="button is-info is-outlined is-right" role="button" value="发表"/>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
