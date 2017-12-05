@@ -3,3 +3,9 @@ venv
 
 # Pycharm files
 .idea
+
+# Python cache
+*.pyc
+
+# Migration
+migrations

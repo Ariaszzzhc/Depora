@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <div class="columns">
+            <div class="column"></div>
+            <div class="column is-two-thirds">
+                {% for article in articles %}
+                    <section class="section">
+                        <h1 class="title">{{ article.title }}</h1>
+                        <p>{{ article.content }}</p>
+                    </section>
+                    <hr/>
+                {% endfor %}
+            </div>
+            <div class="column"></div>
+        </div>
+    </div>
+{% endblock %}
