@@ -1,7 +1,16 @@
+import os
+
 from flask_script import Manager, Server
 from flask_migrate import Migrate, MigrateCommand
 
-from depora import app, db, models
+from depora import create_app
+from depora.utils import db
+from depora.models import User, Article, Tag, Comment
+
+# 获取当前环境变量
+env = os.environ.get('ENV', 'dev')
+
+app = create_app('depora.configs.%sConfig' % env.capitalize())
 
 manager = Manager(app)
 
@@ -15,10 +24,10 @@ manager.add_command("migrate", MigrateCommand)
 def make_shell_context():
     return dict(app=app,
                 db=db,
-                User=models.User,
-                Article=models.Article,
-                Comment=models.Comment,
-                Tag=models.Tag)
+                User=User,
+                Article=Article,
+                Comment=Comment,
+                Tag=Tag)
 
 
 if __name__ == '__main__':

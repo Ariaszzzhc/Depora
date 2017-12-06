@@ -1,7 +1,6 @@
 import datetime
 
-from depora import db
-from depora import bcrypt
+from depora.utils import db
 
 
 class User(db.Model):
