@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登录</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="tabs is-centered">
+    <ul>
+        <li class="is-active"><a href="/login">登录</a></li>
+    </ul>
+</div>
+<div class="container">
+    <form method="post" action="/login">
+        {{ form.hidden_tag() }}
+        <div class="field">
+            <label class="label">账号</label>
+            {% if form.username.errors %}
+                {% for e in form.username.errors %}
+                    <p class="help-block">{{ e }}</p>
+                {% endfor %}
+            {% endif %}
+            {{ form.username(class_='input', placeholder='username') }}
+            <label class="label">密码</label>
+            {% if form.password.errors %}
+                {% for e in form.password.errors %}
+                    <p class="help-block">{{ e }}</p>
+                {% endfor %}
+            {% endif %}
+            {{ form.password(class_='input', placeholder='password') }}
+        </div>
+        <button type="submit" class="button is-primary">登录</button>
+    </form>
+</div>
+</body>
+</html>

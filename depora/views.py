@@ -1,9 +1,9 @@
-from flask import render_template, redirect, request
+from flask import render_template, redirect, request, flash
 from werkzeug.exceptions import NotFound
 
 from depora import app, db
 from depora.models import Article, Comment, Tag, User
-from depora.forms import ArticleForm
+from depora.forms import ArticleForm, LoginForm
 
 site_description = '''
 Hello, Depora!
@@ -72,3 +72,15 @@ def update(id):
         return redirect('/admin')
 
     return render_template('admin/update.html', form=form, id=article.id)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        flash("登陆成功", category="success")
+
+        return redirect('/admin')
+
+    return render_template('admin/login.html', form=form)

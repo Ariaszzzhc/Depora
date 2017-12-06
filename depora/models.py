@@ -19,17 +19,17 @@ class User(db.Model):
 
     def __init__(self, username, password):
         self.username = username
-        self.password = password
+        self.password = self.set_password(password)
 
     def __repr__(self):
         """Define the string format for instance of User."""
         return "<Model User `{}`>".format(self.username)
 
-    def set_password(password):
+    def set_password(self, password):
         return bcrypt.generate_password_hash(password)
 
-    def check_password(password):
-        return bcrypt.check_password_hash(password)
+    def check_password(self, password):
+        return bcrypt.check_password_hash(User.query.filter_by(id=self.id).first().password, password)
 
 
 articles_tags = db.Table('articles_tags',
