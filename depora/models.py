@@ -1,9 +1,10 @@
 import datetime
+from flask_login import UserMixin
 
 from depora.utils import db, bcrypt
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     # 表名
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)

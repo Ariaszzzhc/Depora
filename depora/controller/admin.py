@@ -1,5 +1,6 @@
 from os import path
 from flask import render_template, Blueprint, redirect
+from flask_login import login_required
 
 from depora.models import db, Article
 from depora.forms import ArticleForm
@@ -13,6 +14,7 @@ admin_blueprint = Blueprint(
 
 
 @admin_blueprint.route('/write', methods=['GET', 'POST'])
+@login_required
 def new_article():
     form = ArticleForm()
 
@@ -28,6 +30,7 @@ def new_article():
 
 
 @admin_blueprint.route('/')
+@login_required
 def admin():
     articles = Article.query.all()
     return render_template('admin/index.html', articles=articles)
@@ -42,6 +45,7 @@ def delete(id):
 
 
 @admin_blueprint.route('/update/<id>', methods=['GET', 'POST'])
+@login_required
 def update(id):
     article = Article.query.filter_by(id=id).first()
     form = ArticleForm()

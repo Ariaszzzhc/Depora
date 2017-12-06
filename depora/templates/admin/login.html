@@ -14,7 +14,7 @@
     </ul>
 </div>
 <div class="container">
-    <form method="post" action="/login">
+    <form method="post" action="{{ request.full_path }}">
         {{ form.hidden_tag() }}
         <div class="field">
             <label class="label">账号</label>
