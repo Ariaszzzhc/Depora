@@ -1,4 +1,5 @@
-{% extends "layout.html" %}
+{% extends "layouts/_layout.html" %}
+{% import "layouts/_macros.html" as macros %}
 {% block body %}
 <div class="posts">
   {% for article in articles %}
@@ -14,4 +15,7 @@
   </div>
   {% endfor %}
 </div>
+    <div class="pagination">
+        {{ macros.pagination_widget(pagination, ".index") }}
+    </div>
 {% endblock %}

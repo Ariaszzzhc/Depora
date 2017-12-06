@@ -1,4 +1,4 @@
-from flask import render_template, redirect
+from flask import render_template, redirect, request
 from werkzeug.exceptions import NotFound
 
 from depora import app, db
@@ -12,8 +12,11 @@ Hello, Depora!
 
 @app.route('/')
 def index():
-    articles = Article.query.all()
-    return render_template('index.html', articles=articles, site_description=site_description)
+    page = request.args.get('page', 1, type=int)
+    pagination = Article.query.order_by(Article.publish.desc())\
+        .paginate(page, per_page=10, error_out=False)
+    articles = pagination.items
+    return render_template('index.html', articles=articles, site_description=site_description, pagination=pagination)
 
 
 @app.route('/article/<id>')
