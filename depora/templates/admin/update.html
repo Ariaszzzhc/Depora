@@ -7,21 +7,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
-    <link href="{{ url_for('static', filename='editor.md/css/editormd.css') }}" rel="stylesheet"/>
-    <script src="{{ url_for('static', filename='editor.md/editormd.js') }}" type="text/javascript"></script>
-    <script type="text/javascript">
-        //    调用编辑器
-        var testEditor;
-        $(function () {
-
-            testEditor = editormd("editormd", {
-//                width   : "1000px",
-                height: 640,
-                syncScrolling: "single",
-                path: "{{ url_for('static',filename='editor.md/lib/') }}"
-            });
-        });
-    </script>
+    <script src="https://unpkg.com/wangeditor/release/wangEditor.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="tabs is-centered">
@@ -73,7 +59,7 @@
                 <p class="help-block">{{ e }}</p>
             {% endfor %}
         {% endif %}
-        <div id="editormd" class="form-control">
+        <div id="editor">
             {{ form.text(style="display:none;") }}
         </div>
         <!--提交按钮-->
@@ -85,5 +71,11 @@
         </div>
     </form>
 </div>
+<script type="text/javascript">
+    // 调用编辑器
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.create()
+</script>
 </body>
 </html>
