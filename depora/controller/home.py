@@ -21,7 +21,7 @@ Hello, Depora!
 @home_blueprint.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
-    pagination = Article.query.order_by(Article.publish.desc())\
+    pagination = Article.query.order_by(Article.publish.desc()) \
         .paginate(page, per_page=10, error_out=False)
     articles = pagination.items
     return render_template('index.html', articles=articles, site_description=site_description, pagination=pagination)

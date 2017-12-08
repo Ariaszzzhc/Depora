@@ -1,89 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>写文章</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+{% extends 'admin/_layouts/_layout.html' %}
+{% block import %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
-    <link href="{{ url_for('static', filename='editor.md/css/editormd.css') }}" rel="stylesheet"/>
-    <script src="{{ url_for('static', filename='editor.md/editormd.js') }}" type="text/javascript"></script>
-    <script type="text/javascript">
-        //    调用编辑器
-        var testEditor;
-        $(function () {
-
-            testEditor = editormd("editormd", {
-//                width   : "1000px",
-                height: 640,
-                syncScrolling: "single",
-                path: "{{ url_for('static',filename='editor.md/lib/') }}"
-            });
-        });
-    </script>
-</head>
-<body>
-<div class="tabs is-centered">
-    <ul>
-        <li><a href="/admin">文章概览</a></li>
-        <li class="is-active"><a href="/admin/write">写文章</a></li>
-    </ul>
-</div>
-<div id="main" class="container">
-    <form method="post" action="/admin/write">
-        {{ form.hidden_tag() }}
-        <div class="field">
-            <label class="label">标题</label>
-            <div class="columns">
-                <div class="column is-three-quarters">
-                    {% if form.title.errors %}
-                        {% for e in form.title.errors %}
-                            <p class="help-block">{{ e }}</p>
-                        {% endfor %}
-                    {% endif %}
-                    {{ form.title(class_='input') }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+{% endblock %}
+{% block body %}
+    <div id="main">
+        <form method="post" action="{% if id %}/admin/update/{{ id }}{% else %}/admin/write{% endif %}"
+              class="pure-form pure-form-stacked">
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <div class="pure -g">
+                    <div class="pure-u-1-5"></div>
+                    <div class="pure-u-3-5">
+                        <legend>撰写新文章</legend>
+                        <br/>
+                        <label for="title">文章标题</label>
+                        {% if form.title.errors %}
+                            {% for e in form.title.errors %}
+                                <p>{{ e }}</p>
+                            {% endfor %}
+                        {% endif %}
+                        {{ form.title(id="title", class_='pure-input-1') }}
+                        <br/>
+                        {% if form.text.errors %}
+                            {% for e in form.text.errors %}
+                                <p class="help-block">{{ e }}</p>
+                            {% endfor %}
+                        {% endif %}
+                        <div id="editor" class="form-control">
+                            {{ form.text(id="markdown", style="display:none;") }}
+                        </div>
+                    </div>
                 </div>
-                <div class="column">
-                    {#                    <div class="dropdown is-active">#}
-                    {#                        <div class="dropdown-trigger">#}
-                    {#                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu2" >#}
-                    {#                                <span>标签</span>#}
-                    {#                                <span class="icon is-small">#}
-                    {#                    <i class="fa fa-angle-down" aria-hidden="true"></i>#}
-                    {#                </span>#}
-                    {#                            </button>#}
-                    {#                        </div>#}
-                    {#                        <!--<div class="dropdown-menu" id="dropdown-menu2" role="menu">-->#}
-                    {#                            <!--<ul class="dropdown-content">-->#}
-                    {#                                <!--<li th:each="tag:${tags}">-->#}
-                    {#                                    <!--<a th:name="${tag.name}" onclick="selectCategory(this)" th:text="${tag.name}"></a>-->#}
-                    {#                                <!--</li>-->#}
-                    {#                            <!--</ul>-->#}
-                    {#                            <!--<input name="newTag" id="cateoryInput" type="hidden" th:field="*{newTag.name}"/>-->#}
-                    {#                        <!--</div>-->#}
-                    {#                    </div>#}
+                <br/>
+                <div class="pure -g">
+                    <div class="pure-u-18-24"></div>
+                    <div class="pure-u-1-8">
+                        <button class="pure-button pure-button-primary" type="submit">发表</button>
+                    </div>
                 </div>
-            </div>
-            <p class="help">文章标题</p>
-        </div>
-        <!--文本标记区-->
-        {% if form.text.errors %}
-            {% for e in form.text.errors %}
-                <p class="help-block">{{ e }}</p>
-            {% endfor %}
-        {% endif %}
-        <div id="editormd" class="form-control">
-            {{ form.text(style="display:none;") }}
-        </div>
-        <!--提交按钮-->
-        <div class="columns">
-            <div class="column is-four-fifths"></div>
-            <div class="column">
-                <input type="submit" class="button is-info is-outlined is-right" role="button" value="发表"/>
-            </div>
-        </div>
-    </form>
-</div>
-</body>
-</html>
+            </fieldset>
+        </form>
+        <script>
+            var editor = new SimpleMDE({element: $("#markdown")[0]});
+        </script>
+    </div>
+{% endblock %}

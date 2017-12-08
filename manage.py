@@ -45,3 +45,7 @@ def make_shell_context():
                 Article=Article,
                 Comment=Comment,
                 Tag=Tag)
+
+
+if __name__ == '__main__':
+    app.run()

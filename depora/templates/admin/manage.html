@@ -1,0 +1,45 @@
+{% extends 'admin/_layouts/_layout.html' %}
+{% import 'admin/_layouts/_macros.html' as macros %}
+{% block import %}
+    <style type="text/css">
+        .table {
+            padding: 5%;
+            width: 100%;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <br/>
+    <div class="pure -g">
+        <div class="pure-u-4-24"></div>
+        <div class="pure-u-16-24">
+            <table class="pure-table pure-table-horizontal table">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>标题</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for article in articles %}
+                    <tr>
+                        <td>{{ article.id }}</td>
+                        <td>{{ article.title }}</td>
+                        <td>
+                            <a href="/admin/update/{{ article.id }}">修改</a>
+                            <a href="/admin/delete/{{ article.id }}">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br/>
+            <div class="pure -g">
+                <div class="pagination">
+                    {{ macros.pagination_widget(pagination, ".manage") }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,5 +1,5 @@
 from os import path
-from flask import render_template, Blueprint, redirect
+from flask import render_template, Blueprint, redirect, request
 from flask_login import login_required
 
 from depora.models import db, Article
@@ -32,8 +32,11 @@ def new_article():
 @admin_blueprint.route('/')
 @login_required
 def admin():
-    articles = Article.query.all()
-    return render_template('admin/index.html', articles=articles)
+    # articles = Article.query.all()
+    count = Article.query.count()
+    recents = Article.query.order_by(Article.publish.desc()).limit(5).all()
+
+    return render_template('admin/index.html', count=count, recents=recents)
 
 
 @admin_blueprint.route('/delete/<id>')
@@ -59,4 +62,20 @@ def update(id):
         db.session.commit()
         return redirect('/admin')
 
-    return render_template('admin/update.html', form=form, id=article.id)
+    return render_template('admin/write.html', form=form, id=article.id)
+
+
+@admin_blueprint.route('/test')
+def test():
+    return render_template('admin/_layout.html')
+
+
+@admin_blueprint.route('/manage')
+def manage():
+    page = request.args.get('page', 1, type=int)
+    pagination = Article.query.order_by(Article.publish.desc()) \
+        .paginate(page, per_page=20, error_out=False)
+
+    articles = pagination.items
+
+    return render_template('admin/manage.html', articles=articles, pagination=pagination)
