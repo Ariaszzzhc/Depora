@@ -15,6 +15,7 @@ from depora.models import User
 class LoginForm(FlaskForm):
     username = StringField('Username', [DataRequired(), Length(max=255)])
     password = StringField('Password', [DataRequired()])
+    remember = BooleanField('Remember Me')
 
     def validate(self):
         check_validata = super(LoginForm, self).validate()

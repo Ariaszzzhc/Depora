@@ -65,15 +65,10 @@ def update(id):
     return render_template('admin/write.html', form=form, id=article.id)
 
 
-@admin_blueprint.route('/test')
-def test():
-    return render_template('admin/_layout.html')
-
-
 @admin_blueprint.route('/manage')
 def manage():
     page = request.args.get('page', 1, type=int)
-    pagination = Article.query.order_by(Article.publish.desc()) \
+    pagination = Article.query.order_by(Article.id) \
         .paginate(page, per_page=20, error_out=False)
 
     articles = pagination.items

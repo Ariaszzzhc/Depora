@@ -1,24 +1,32 @@
 {% macro pagination_widget(pagination, endpoint) %}
-    {% if pagination.has_prev %}
-        <div class="pure-u-1-8">
-            <a role="button" class="pure-button" href="
+    <div class="pure -g">
+        <div class="pure-u-1-8"></div>
+        {% if pagination.has_prev %}
+            <div class="pure-u-1-8">
+                <a role="button" class="pure-button" href="
 
-                    {% if pagination.has_prev %}{{ url_for(endpoint, page = pagination.page - 1, **kwargs) }}{% else %}#{% endif %}">前一页</a>
-        </div>
-    {% else %}
-        <div class="pure-u-1-8">
-            <button class="pure-button">前一页</button>
-        </div>
-    {% endif %}
-    {% if pagination.has_next %}
-        <div class="pure-u-1-8">
-            <a role="button" class="pure-button" href="
 
-                    {% if pagination.has_next %}{{ url_for(endpoint, page = pagination.page + 1, **kwargs) }}{% else %}#{% endif %}">后一页</a>
-        </div>
-    {% else %}
-        <div class="pure-u-1-8">
-            <button class="pure-button">后一页</button>
-        </div>
-    {% endif %}
+
+                        {% if pagination.has_prev %}{{ url_for(endpoint, page = pagination.page - 1, **kwargs) }}{% else %}#{% endif %}">前一页</a>
+            </div>
+        {% else %}
+            <div class="pure-u-1-8">
+                <button class="pure-button pure-button-disabled">前一页</button>
+            </div>
+        {% endif %}
+        <div class="pure-u-1-2"></div>
+        {% if pagination.has_next %}
+            <div class="pure-u-1-8">
+                <a role="button" class="pure-button" href="
+
+
+
+                        {% if pagination.has_next %}{{ url_for(endpoint, page = pagination.page + 1, **kwargs) }}{% else %}#{% endif %}">后一页</a>
+            </div>
+        {% else %}
+            <div class="pure-u-1-8">
+                <button class="pure-button pure-button-disabled">后一页</button>
+            </div>
+        {% endif %}
+    </div>
 {% endmacro %}
