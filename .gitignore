@@ -9,3 +9,6 @@ venv
 
 # Migration
 migrations
+
+# Local config
+config.json

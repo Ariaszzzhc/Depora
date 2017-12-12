@@ -40,6 +40,7 @@ def admin():
 
 
 @admin_blueprint.route('/delete/<id>')
+@login_required
 def delete(id):
     Article.query.filter_by(id=id).delete()
     db.session.commit()
@@ -66,6 +67,7 @@ def update(id):
 
 
 @admin_blueprint.route('/manage')
+@login_required
 def manage():
     page = request.args.get('page', 1, type=int)
     pagination = Article.query.order_by(Article.id) \

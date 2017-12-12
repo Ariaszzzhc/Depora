@@ -13,9 +13,9 @@ from depora.controller.admin import admin_blueprint
 from depora.forms import LoginForm, ArticleForm
 
 # 获取当前环境变量
-env = os.environ.get('ENV', 'dev')
+# env = os.environ.get('ENV', 'dev')
 
-app = create_app('depora.configs.%sConfig' % env.capitalize())
+app = create_app()
 
 migrate = Migrate(app, db)
 

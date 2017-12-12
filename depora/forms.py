@@ -39,3 +39,11 @@ class LoginForm(FlaskForm):
 class ArticleForm(FlaskForm):
     title = StringField('Title', [DataRequired(), Length(max=255)])
     text = TextAreaField('Blog Content', [DataRequired()])
+
+
+class InstallForm(FlaskForm):
+    blog_name = StringField('Blog Name', [DataRequired()])
+    database_name = StringField('Database Name', [DataRequired()])
+    database_username = StringField('Database Name', [DataRequired()])
+    database_password = StringField('Database Password', [DataRequired()])
+    database_address = StringField('Database Address', [DataRequired()])

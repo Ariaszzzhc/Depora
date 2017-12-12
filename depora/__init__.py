@@ -1,3 +1,4 @@
+from os import path
 from flask import Flask
 from flaskext.markdown import Markdown
 
@@ -8,9 +9,12 @@ from depora.controller.article import article_blueprint
 from depora.controller.home import home_blueprint
 
 
-def create_app(config):
+def create_app():
     app = Flask(__name__)
-    app.config.from_object(config)
+    if path.exists('config.json'):
+        app.config.from_json('../config.json')
+    # else:
+    #     app.config.from_object(config)
 
     db.init_app(app)
     bcrypt.init_app(app)
