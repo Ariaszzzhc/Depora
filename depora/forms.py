@@ -47,3 +47,11 @@ class InstallForm(FlaskForm):
     database_username = StringField('Database Name', [DataRequired()])
     database_password = StringField('Database Password', [DataRequired()])
     database_address = StringField('Database Address', [DataRequired()])
+    username = StringField('Username', [DataRequired()])
+    password = StringField('Username', [DataRequired()])
+
+
+class OptionForm(FlaskForm):
+    site_name = StringField('Site Name')
+    site_url = StringField('Site Url')
+    site_description = StringField('Site Description')

@@ -1,4 +1,5 @@
 import datetime
+from json import load
 from flask_login import UserMixin
 
 from depora.utils import db, bcrypt
@@ -29,7 +30,8 @@ class User(UserMixin, db.Model):
         return bcrypt.generate_password_hash(password)
 
     def check_password(self, password):
-        return bcrypt.check_password_hash(User.query.filter_by(id=self.id).first().password, password)
+        return bcrypt.check_password_hash(User.query.filter_by(id=self.id).first().password,
+                                          password)
 
 
 articles_tags = db.Table('articles_tags',
@@ -92,3 +94,32 @@ class Tag(db.Model):
 
     def __repr__(self):
         return "<Model Tag `{}`>".format(self.name)
+
+
+class Option(db.Model):
+    __tablename__ = 'options'
+    id = db.Column(db.Integer, primary_key=True)
+    key = db.Column(db.String(255))
+    value = db.Column(db.String(255))
+
+    def __init__(self, key, value=''):
+        self.key = key
+        self.value = value
+
+    def __repr__(self):
+        return "<Model Option `{}`>".format(self.key)
+
+
+def init_database():
+    option_list = {'siteName': 'Depora', 'siteUrl': '#', 'siteDescription': 'Hello, Depora!'}
+    db.create_all()
+    with open('config.json', 'r') as file_object:
+        configs = load(file_object)
+        user = User(configs['USERNAME'], configs['PASSWORD'])
+        db.session.add(user)
+
+    for key, value in option_list.items():
+        new_option = Option(key, value)
+        db.session.add(new_option)
+
+    db.session.commit()

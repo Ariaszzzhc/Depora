@@ -8,11 +8,7 @@
     <!-- Enable responsiveness on mobile devices-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-    {% if title %}
-        <title>{{ title }} - Depora</title>
-    {% else %}
-        <title>Home - Depora</title>
-    {% endif %}
+    <title>{{ title }} - {{ site_name.value }}</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/lanyon.css') }}">
@@ -36,7 +32,7 @@
 <!-- Toggleable sidebar -->
 <div class="sidebar" id="sidebar">
     <div class="sidebar-item">
-        <p>{{ site_description }}</p>
+        <p>{{ site_description.value }}</p>
     </div>
 
     <nav class="sidebar-nav">
@@ -58,7 +54,7 @@
         <div class="container">
             <h3 class="masthead-title">
                 <a href="/" title="Home">Depora</a>
-                <small>A Simple Blog</small>
+                <small>{{ site_description.value }}</small>
             </h3>
         </div>
     </div>

@@ -1,9 +1,9 @@
 from os import path
-from flask import render_template, Blueprint, redirect, request
-from flask_login import login_required
+from flask import render_template, Blueprint, redirect, request, url_for
+from flask_login import login_required, logout_user
 
-from depora.models import db, Article
-from depora.forms import ArticleForm
+from depora.models import db, Article, Option, User
+from depora.forms import ArticleForm, OptionForm
 
 admin_blueprint = Blueprint(
     'admin',
@@ -21,6 +21,7 @@ def new_article():
     if form.validate_on_submit():
         article = Article(title=form.title.data, content=form.text.data)
 
+        article.user_id = User.query.filter_by(id=1).first().id
         db.session.add(article)
         db.session.commit()
         return redirect('/admin')
@@ -53,8 +54,10 @@ def delete(id):
 def update(id):
     article = Article.query.filter_by(id=id).first()
     form = ArticleForm()
-    form.title.data = article.title
-    form.text.data = article.content
+
+    if request.method == 'GET':
+        form.title.data = article.title
+        form.text.data = article.content
 
     if form.validate_on_submit():
         article.title = form.title.data
@@ -76,3 +79,35 @@ def manage():
     articles = pagination.items
 
     return render_template('admin/manage.html', articles=articles, pagination=pagination)
+
+
+@admin_blueprint.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return render_template('admin/logout.html')
+
+
+@admin_blueprint.route('/option', methods=['GET', 'POST'])
+@login_required
+def option():
+    site_name = Option.query.filter_by(key='siteName').first()
+    site_url = Option.query.filter_by(key='siteUrl').first()
+    site_description = Option.query.filter_by(key='siteDescription').first()
+    form = OptionForm()
+
+    if request.method == 'GET':
+        form.site_name.data = site_name.value
+        form.site_url.data = site_url.value
+        form.site_description.data = site_description.value
+
+    if form.validate_on_submit():
+        site_name.value = form.site_name.data
+        site_url.value = form.site_url.data
+        site_description.value = form.site_description.data
+
+        db.session.commit()
+
+        return redirect(url_for('admin.admin'))
+
+    return render_template('admin/option.html', form=form)

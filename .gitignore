@@ -12,3 +12,6 @@ migrations
 
 # Local config
 config.json
+
+#fake
+fake.py

@@ -14,11 +14,6 @@
     {% block import %}
     {% endblock %}
     <style>
-        .is-active {
-            color: white;
-            background-color: dodgerblue;
-        }
-
         .top-menu-color {
             background-color: #191918;
         }
@@ -30,6 +25,10 @@
         .top-menu-item:hover {
             background-color: #303030;
         }
+
+        .right {
+            float: right;
+        }
     </style>
 </head>
 <body>
@@ -38,6 +37,11 @@
         <li class="pure-menu-item"><a href="/admin" class="pure-menu-link top-menu-item">网站概览</a></li>
         <li class="pure-menu-item"><a href="/admin/write" class="pure-menu-link top-menu-item ">写文章</a></li>
         <li class="pure-menu-item"><a href="/admin/manage" class="pure-menu-link top-menu-item">管理</a></li>
+        <li class="pure-menu-item"><a href="/admin/option" class="pure-menu-link top-menu-item">设置</a></li>
+    </ul>
+    <ul class="pure-menu-list right">
+        {#        <li class="pure-menu-item"><a class="pure-menu-link top-menu-item">Arias</a></li>#}
+        <li class="pure-menu-item"><a href="/admin/logout" class="pure-menu-link top-menu-item">登出</a></li>
     </ul>
 </div>
 {% block body %}

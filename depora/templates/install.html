@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>登录</title>
+    <title>安装</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
           integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
     <style type="text/css">
@@ -29,49 +29,67 @@
 <body>
 <div class="install-wrap">
     <div class="install">
-        <form method="post" action="{{ request.full_path }}" class="pure-form pure-form-stacked">
-            {{ form.hidden_tag() }}
-            <fieldset>
-                <legend>安装</legend>
-                <br/>
-                <label for="blog_name">博客名字</label>
-                {% if form.blog_name.errors %}
-                    {% for e in form.blog_name.errors %}
-                        <p class="help-block">{{ e }}</p>
-                    {% endfor %}
-                {% endif %}
-                {{ form.blog_name(class_='pure-input-1', placeholder='blog name') }}
-                <label for="database_address">数据库地址</label>
-                {% if form.database_address.errors %}
-                    {% for e in form.database_address.errors %}
-                        <p class="help-block">{{ e }}</p>
-                    {% endfor %}
-                {% endif %}
-                {{ form.database_address(class_='pure-input-1', placeholder='address') }}
-                <label for="database_name">数据库名</label>
-                {% if form.database_name.errors %}
-                    {% for e in form.database_name.errors %}
-                        <p class="help-block">{{ e }}</p>
-                    {% endfor %}
-                {% endif %}
-                {{ form.database_name(class_='pure-input-1', placeholder='name') }}
-                <label for="database_username">数据库用户名</label>
-                {% if form.database_username.errors %}
-                    {% for e in form.database_username.errors %}
-                        <p class="help-block">{{ e }}</p>
-                    {% endfor %}
-                {% endif %}
-                {{ form.database_username(class_='pure-input-1', placeholder='username') }}
-                <label for="database_password">数据库密码</label>
-                {% if form.database_password.errors %}
-                    {% for e in form.database_password.errors %}
-                        <p class="help-block">{{ e }}</p>
-                    {% endfor %}
-                {% endif %}
-                {{ form.database_password(class_='pure-input-1', placeholder='password', type='password') }}
-            </fieldset>
-            <button type="submit" class="pure-button pure-button-primary width">确认</button>
-        </form>
+        {% if installed %}
+            <h2>安装即将完成，请按照文档提示继续完成安装</h2>
+        {% else %}
+            <form method="post" action="{{ request.full_path }}" class="pure-form pure-form-stacked">
+                {{ form.hidden_tag() }}
+                <fieldset>
+                    <legend>安装</legend>
+                    <br/>
+                    <label for="blog_name">博客名字</label>
+                    {% if form.blog_name.errors %}
+                        {% for e in form.blog_name.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.blog_name(class_='pure-input-1', placeholder='blog name') }}
+                    <label for="database_address">数据库地址</label>
+                    {% if form.database_address.errors %}
+                        {% for e in form.database_address.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.database_address(class_='pure-input-1', placeholder='address') }}
+                    <label for="database_name">数据库名</label>
+                    {% if form.database_name.errors %}
+                        {% for e in form.database_name.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.database_name(class_='pure-input-1', placeholder='name') }}
+                    <label for="database_username">数据库用户名</label>
+                    {% if form.database_username.errors %}
+                        {% for e in form.database_username.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.database_username(class_='pure-input-1', placeholder='username') }}
+                    <label for="database_password">数据库密码</label>
+                    {% if form.database_password.errors %}
+                        {% for e in form.database_password.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.database_password(class_='pure-input-1', placeholder='password', type='password') }}
+                    <label for="username">登入后台用户名</label>
+                    {% if form.username.errors %}
+                        {% for e in form.username.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.username(class_='pure-input-1', placeholder='username') }}
+                    <label for="password">登入后台密码</label>
+                    {% if form.password.errors %}
+                        {% for e in form.password.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.password(class_='pure-input-1', placeholder='password', type='password') }}
+                </fieldset>
+                <button type="submit" class="pure-button pure-button-primary width">确认</button>
+            </form>
+        {% endif %}
     </div>
 </div>
 </body>

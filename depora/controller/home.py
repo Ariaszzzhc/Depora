@@ -3,7 +3,7 @@ from json import dump
 from flask import render_template, Blueprint, request, flash, redirect, url_for
 from flask_login import login_user
 
-from depora.models import Article, User
+from depora.models import Article, User, Option
 from depora.forms import LoginForm, InstallForm
 from depora.utils import login_manager
 
@@ -13,10 +13,6 @@ home_blueprint = Blueprint(
     template_folder=path.join(path.pardir, 'templates'),
     url_prefix='/'
 )
-
-site_description = '''
-Hello, Depora!
-'''
 
 
 @home_blueprint.route('/')
@@ -28,7 +24,17 @@ def index():
     pagination = Article.query.order_by(Article.publish.desc()) \
         .paginate(page, per_page=10, error_out=False)
     articles = pagination.items
-    return render_template('index.html', articles=articles, site_description=site_description, pagination=pagination)
+    site_description = Option.query.filter_by(key='siteDescription').first()
+    site_name = Option.query.filter_by(key='siteName').first()
+    title = 'Home'
+    return render_template(
+        'index.html',
+        articles=articles,
+        site_description=site_description,
+        pagination=pagination,
+        site_name=site_name,
+        title=title
+    )
 
 
 @home_blueprint.route('login', methods=['GET', 'POST'])
@@ -42,7 +48,7 @@ def login():
         flash("登陆成功", category="success")
         user = User.query.filter_by(username=form.username.data).one()
 
-        login_user(user)
+        login_user(user, remember=True)
         next = request.args.get('next')
 
         return redirect(next or url_for('home.index'))
@@ -53,27 +59,34 @@ def login():
 @home_blueprint.route('install', methods=['GET', 'POST'])
 def install():
     if path.exists('config.json'):
-        return redirect(url_for('home.index'))
+        installed = True
 
     else:
-        form = InstallForm()
-        if form.validate_on_submit():
-            config = {
-                'SQLALCHEMY_DATABASE_URI': 'mysql+pymysql://' + form.database_username.data + ':' +
-                                           form.database_password.data + '@' + form.database_address.data +
-                                           ':3306/' + form.database_name.data,
-                'SQLALCHEMY_TRACK_MODIFICATIONS': True,
-                'SECRET_KEY': 'd399c6ac4d03530ad7d86ea1f62fe22f',
-                'DEBUG': True,
-                'WTF_CSRF_ENABLED': False
-            }
+        installed = False
 
-            with open('config.json', 'w') as file_object:
-                dump(config, file_object)
+    form = InstallForm()
+    if form.validate_on_submit():
+        config = {
+            'SQLALCHEMY_DATABASE_URI': 'mysql+pymysql://' + form.database_username.data + ':' +
+                                       form.database_password.data + '@' + form.database_address.data +
+                                       ':3306/' + form.database_name.data,
+            'SQLALCHEMY_TRACK_MODIFICATIONS': True,
+            'SECRET_KEY': 'd399c6ac4d03530ad7d86ea1f62fe22f',
+            'DEBUG': True,
+            'WTF_CSRF_ENABLED': False,
+            'USERNAME': form.username.data,
+            'PASSWORD': form.password.data
+        }
 
-    return render_template('install.html', form=form)
+        with open('config.json', 'w') as file_object:
+            dump(config, file_object)
+
+        return redirect(url_for('home.install'))
+
+    return render_template('install.html', form=form, installed=installed)
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.filter_by(id=user_id).first()
+

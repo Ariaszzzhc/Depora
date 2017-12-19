@@ -8,3 +8,4 @@ login_manager = LoginManager()
 
 login_manager.login_view = "home.login"
 login_manager.session_protection = 'strong'
+

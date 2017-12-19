@@ -13,8 +13,9 @@ def create_app():
     app = Flask(__name__)
     if path.exists('config.json'):
         app.config.from_json('../config.json')
-    # else:
-    #     app.config.from_object(config)
+    else:
+        app.config['WTF_CSRF_ENABLED'] = False
+        app.config['DEBUG'] = True
 
     db.init_app(app)
     bcrypt.init_app(app)
