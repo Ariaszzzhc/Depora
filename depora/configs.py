@@ -1,8 +1,8 @@
 # 通用配置
 class Config:
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:hancheng123@127.0.0.1:3306/depora_python'
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
-    SECRET_KEY = 'd399c6ac4d03530ad7d86ea1f62fe22f'
+    MONGO_URI = 'mongodb://localhost:27017/depora'
+    MONGO_USERNAME = 'arias',
+    MONGO_PASSWORD = '123456'
 
 
 # 生产环境配置

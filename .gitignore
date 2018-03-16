@@ -13,5 +13,8 @@ migrations
 # Local config
 config.json
 
-#fake
+# Fake
 fake.py
+
+# Other
+data

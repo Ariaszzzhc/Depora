@@ -1,8 +1,0 @@
-{% extends 'layouts/_layout.html' %}
-{% block body %}
-    <div class="post">
-        <h1 class="post-title">{{ article.title }}</h1>
-        <span class="post-date">{{ article.publish }}</span>
-        {{ article.content|markdown|safe }}
-    </div>
-{% endblock %}
