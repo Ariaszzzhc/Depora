@@ -1,20 +1,14 @@
-# virtualenv
+# dependencies
 venv
+node_modules
 
-# Pycharm files
+# IDE files
 .idea
+*.iml
+.vscode
 
 # Python cache
 *.pyc
-
-# Migration
-migrations
-
-# Local config
-config.json
-
-# Fake
-fake.py
 
 # Other
 data
