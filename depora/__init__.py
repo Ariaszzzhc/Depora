@@ -2,7 +2,7 @@ from flask import Flask
 
 from .configs import Config
 from .utils import mongo
-from .controller.article import article_blueprint
+from .blueprints.article import article_blueprint
 
 
 def create_app():
