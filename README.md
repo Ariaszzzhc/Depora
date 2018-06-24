@@ -1,5 +1,4 @@
 # Depora
 
-基于Flask的简易博客
+清理旧库
 
-**Under development**
